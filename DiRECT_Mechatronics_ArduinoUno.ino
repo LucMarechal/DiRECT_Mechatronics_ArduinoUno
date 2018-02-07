@@ -18,11 +18,11 @@ const int pin_SERVO_HOOK = 13;              // Hook servo-motor is physically pl
 const int pin_SERVO_COCCIX_SPHINCTER = 10;  // Left Sphincter servo-motor is physically plugged on pin 10
 const int pin_SERVO_PERINEUM_SPHINCTER = 7; // Right Sphincter servo-motor is physically plugged on pin 7
 
-const int pin_RELAY_HOOK = A0;                // Relay attached to Hook servo-motor power supply plugged on pin A0
-const int pin_RELAY_SPHINCTERS = A1;          // Relay attached to the 2 Sphincter servo-motors power supply plugged on pin A1
+const int pin_RELAY_HOOK = A0;              // Relay attached to Hook servo-motor power supply plugged on pin A0
+const int pin_RELAY_SPHINCTERS = A1;        // Relay attached to the 2 Sphincter servo-motors power supply plugged on pin A1
 const int pin_IRQ = 4;
 
-boolean touchStates;                         // to keep track of the previous touch state
+boolean touchStates;                        // to keep track of the previous touch state
 const int openhook = 165;
 const int closehook = 40;
 const int initialCoccixAngle = 120;
@@ -69,7 +69,7 @@ void setup()
 //*************************************************  
   pinMode(pin_RELAY_HOOK,OUTPUT);
   pinMode(pin_RELAY_SPHINCTERS,OUTPUT);
-  set_relay(pin_RELAY_HOOK, false); // Powers OFF Hook servo   //  digitalWrite(pin_RELAY_HOOK,HIFH);       // Powers OFF Hook servo
+  set_relay(pin_RELAY_HOOK, false);       // Powers OFF Hook servo
   set_relay(pin_RELAY_SPHINCTERS, false); // Powers OFF Sphincter servos
 
 //*************************************************
@@ -285,23 +285,6 @@ void loop()
 
 
 
-
-int Match_Regular_Expression(String regular_expression, String input_string) 
-{
-  int foundpos = -1;
-  for (int i = 0; i <= input_string.length() - regular_expression.length(); i++) 
-  {
-    if (input_string.substring(i,regular_expression.length()+i) == regular_expression)
-    {
-      foundpos = i;
-    }
-  }
-  return foundpos;
-}
-
-
-
-
 int Find_servo_angle(String regular_expression, String input_string)
 {
    int angle = -1;
@@ -320,6 +303,26 @@ int Find_servo_angle(String regular_expression, String input_string)
    }
    return angle;
 }
+
+
+//********************************************************************************************
+// Find a fixed expression in the data frame and return the position
+// i.e. finds the char 'H' in the frame '#H050\n'
+// This function is used in: Find_servo_angle(String regular_expression, String input_string)
+//******************************************************************************************** 
+int Match_Regular_Expression(String regular_expression, String input_string) 
+{
+  int foundpos = -1;
+  for (int i = 0; i <= input_string.length() - regular_expression.length(); i++) 
+  {
+    if (input_string.substring(i,regular_expression.length()+i) == regular_expression)
+    {
+      foundpos = i;
+    }
+  }
+  return foundpos;
+}
+
 
 
 
@@ -496,3 +499,4 @@ void set_relay(int pin_relay, boolean state)
     digitalWrite(pin_relay, HIGH); // Powers OFF Hook servo
   }
 }
+
